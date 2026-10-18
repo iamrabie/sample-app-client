@@ -122,7 +122,7 @@ const Dashboard = () => {
                </div>
             </div>
 
-            <div className="w-[25%] bg-pink-200 h-screen">
+            <div className="w-[25%] bg-blue-200/30 h-screen">
               C
             </div>
         </div>
