@@ -6,21 +6,32 @@ import './App.css'
 
 import Auth from './components/auth.component';
 import Dashboard from "./components/dashboard.component";
-import { Routes , Route } from "react-router-dom";
+import { Routes , Route , Navigate} from "react-router-dom";
 
+
+function ProtectedRoute ({children}) {
+
+  const isLoggedIn = localStorage.getItem('user:token') !== null;
+  console.log("IS LOGGED IN ??? :::" , isLoggedIn);
+
+  if (!isLoggedIn) {
+    return <Navigate to="/sign-in" replace />
+  }
+
+  return children;
+
+} 
 
 function App() {
 
   return (
     <>
-      {/* <SignUp /> */}
-      {/* <Dashboard /> */}
-      {/* <div>
-        <Outlet />
-      </div> */}
-
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={
+          <ProtectedRoute>
+              <Dashboard />
+          </ProtectedRoute>}
+         />
         <Route path="/sign-up" element={<Auth isSignedIn={false} />} />
         <Route path="/sign-in" element={<Auth isSignedIn={true} />} />
       </Routes>
