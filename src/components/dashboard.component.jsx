@@ -1,3 +1,8 @@
+import { IoCallSharp } from "react-icons/io5";
+import { BsFillSendFill } from "react-icons/bs";
+import { FaPlus } from "react-icons/fa6";
+
+
 const Dashboard = () => {
 
     const USER_DATA = [
@@ -35,7 +40,7 @@ const Dashboard = () => {
 
     return(
         <div className="flex w-screen">
-            <div className="w-[25%] bg-blue-100 h-screen">
+            <div className="w-[25%] bg-blue-200/30 h-screen">
               <div className="flex gap-x-2 border items-center justify-center mb-3">
                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s" alt="logo" height="50" width="50" className="rounded-full" />
                  <div className="flex flex-col">
@@ -43,7 +48,7 @@ const Dashboard = () => {
                     <p className="text-sm">My Account</p>
                  </div>
               </div>
-              <hr className="bg-gray-200 h-1" />
+              {/* <hr className="bg-gray-200 h-1" /> */}
               <div className="w-[250px] mx-auto ">
                 {USER_DATA.map((item) => (
                     <div className="flex gap-x-3 py-4 !border-b border-gray-300 items-center">
@@ -56,9 +61,67 @@ const Dashboard = () => {
                 ))}
               </div>
             </div>
-            <div className="w-1/2 h-screen border-x-2 border-black">
-              B
+
+            {/* MAIN CHAT WINDOW */}
+            <div className="w-1/2 h-screen flex flex-col">
+                {/* header */}
+               <div className="h-[12vh] flex items-center">
+                  <div className="w-[80%] bg-gray-100 rounded-full h-[8vh] mx-auto px-10 py-1 flex justify-between items-center">
+                     <div className="flex items-center gap-x-3">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s" height="30" width="30" />
+                        <div className="flex flex-col text-[12px]">
+                            <p className="m-0 font-semibold">Aqsa Nazeer</p>
+                            <p className="m-0">online</p>
+                        </div>
+                     </div>
+                     <div>
+                        <IoCallSharp size={24} /> 
+                     </div>
+                  </div>
+               </div>
+
+                {/* body */}
+               <div className="flex-1 px-3 py-1 flex flex-col gap-y-2 overflow-y-auto border-b">
+                  <div className="bg-gray-100 rounded-b-xl rounded-tr-xl p-2 w-[fit-content] max-w-[370px]">
+                    lorem ipsum 
+                  </div>
+                  <div className="bg-blue-400 text-white rounded-b-xl rounded-tl-xl p-2 w-[fit-content] max-w-[400px] ml-auto">
+                   lorem ipsum .....   lorem ipsum 
+                  </div>
+                    <div className="bg-gray-100 rounded-b-xl rounded-tr-xl p-2 w-[fit-content] max-w-[370px]">
+                    lorem ipsum .....   lorem ipsum .....  
+                  </div>
+                  <div className="bg-blue-400 text-white rounded-b-xl rounded-tl-xl p-2 w-[fit-content] max-w-[400px] ml-auto">
+                   lorem ipsum .....   lorem ipsum .....  lorem ipsum .....
+                  </div>  <div className="bg-gray-100 rounded-b-xl rounded-tr-xl p-2 w-[fit-content] max-w-[370px]">
+                    lorem ipsum 
+                  </div>
+                  <div className="bg-blue-400 text-white rounded-b-xl rounded-tl-xl p-2 w-[fit-content] max-w-[400px] ml-auto">
+                   lorem ipsum .....   lorem ipsum .....  lorem ipsum .....  lorem ipsum .....       lorem ipsum .....   lorem ipsum .....  lorem ipsum .....  lorem ipsum .....       lorem ipsum .....   lorem ipsum .....  lorem ipsum .....  lorem ipsum ..... 
+                  </div>  <div className="bg-gray-100 rounded-b-xl rounded-tr-xl p-2 w-[fit-content] max-w-[370px]">
+                    lorem ipsum .....   lorem ipsum .....  lorem ipsum .....  lorem ipsum .....
+                  </div>
+                  <div className="bg-blue-400 text-white rounded-b-xl rounded-tl-xl p-2 w-[fit-content] max-w-[400px] ml-auto">
+                   lorem ipsum .....   lorem ipsum .....  lorem ipsum .....  lorem ipsum .....
+                  </div>
+                    <div className="bg-gray-100 rounded-b-xl rounded-tr-xl p-2 w-[fit-content] max-w-[370px]">
+                    lorem ipsum .....   lorem ipsum .....  lorem ipsum .....  lorem ipsum .....
+                  </div>
+                  <div className="bg-blue-400 text-white rounded-b-xl rounded-tl-xl p-2 w-[fit-content] max-w-[400px] ml-auto">
+                   lorem ipsum .....   lorem ipsum .....  lorem ipsum .....  lorem ipsum .....
+                  </div>
+               </div>
+         
+               {/* footer */}
+               <div className="h-[12vh] flex items-center">
+                  <div className="w-[95%] mx-auto flex  gap-x-4 items-center">
+                     <input type="text" placeholder="Type a message ..." className="w-[75%] py-2 border border-gray-300 px-1.5 rounded-lg"/>
+                     <BsFillSendFill size={22} />
+                     <FaPlus size={22} />
+                  </div>
+               </div>
             </div>
+
             <div className="w-[25%] bg-pink-200 h-screen">
               C
             </div>
