@@ -9,7 +9,10 @@ function App() {
 
   return (
     <>
-      <p className='text-center font-bold'>this is the app page</p>
+      {/* <p className='text-center font-bold'>this is the app page</p> */}
+      <div className='flex flex-row gap-x-3'>
+         <p>la ;a ;a</p><p>hshshs</p>
+      </div>
     </>
   )
 }
