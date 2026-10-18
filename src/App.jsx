@@ -4,15 +4,16 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import './App.css'
 
-import SignUp from './components/sign-up.component';
+// import SignUp from './components/sign-up.component';
+import Dashboard from "./components/dashboard.component";
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <SignUp />
+      {/* <SignUp /> */}
+      <Dashboard />
     </>
   )
 }
