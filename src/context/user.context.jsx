@@ -2,16 +2,50 @@ import { createContext , useState } from "react";
 
 export const UserContext = createContext({
     currentUser:null,
-    setCurrentUser:() => null
+    setCurrentUser:() => null,
+    setUserOnLogin:() => null,
+    setUserOnLogout:() => null
 });
 
 
 export const UserProvider = ({children}) => {
 
-    const [currentUser , setCurrentUser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(() => {
+    const id = localStorage.getItem("userId");
+
+    if (!id) return null;
+
+    return {
+        id: id,
+        email: localStorage.getItem("userEmail"),
+        name: localStorage.getItem("userName")
+    };
+});
+
     console.log("CURRENT USER :::" , currentUser);
 
-    const value = { currentUser , setCurrentUser };
+    const setUserOnLogin = (data) => {
+
+        localStorage.setItem("userId" , data?.id );
+        localStorage.setItem("userEmail" , data?.email);
+        localStorage.setItem("userName" , data?.name);
+
+        setCurrentUser({
+            id:data?.id,
+            email:data?.email,
+            name:data?.name
+        });
+    }
+
+    const setUserOnLogout = () => {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userEmail");
+        console.log("is undefiend ?" , localStorage.removeItem("userName"));
+
+        setCurrentUser(null);
+    }
+
+    const value = { currentUser ,  setUserOnLogin , setUserOnLogout };
     
     return(
         <UserContext.Provider value={value}>

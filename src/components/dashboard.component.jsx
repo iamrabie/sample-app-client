@@ -2,8 +2,16 @@ import { IoCallSharp } from "react-icons/io5";
 import { BsFillSendFill } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa6";
 
+import { socket } from "../App";
+import { useState } from "react";
+
+import InputField from "./input.component";
 
 const Dashboard = () => {
+
+    const [input , setInput] = useState('');
+    // console.log("input is ::" , input);
+
 
     const USER_DATA = [
         {
@@ -37,6 +45,19 @@ const Dashboard = () => {
           image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s'
         }
     ];
+
+    // console.log("socket in the dashboard comp" , socket);
+
+    const handleInput = (val) => {
+      // console.log(val);
+      setInput(val);
+    }
+
+    const handleSendMessage = () => {
+      console.log("you clocked handle ssend message button");
+
+      socket.emit("on-send-message" , input);
+    }
 
     return(
         <div className="flex w-screen">
@@ -115,8 +136,8 @@ const Dashboard = () => {
                {/* footer */}
                <div className="h-[12vh] flex items-center">
                   <div className="w-[95%] mx-auto flex  gap-x-4 items-center">
-                     <input type="text" placeholder="Type a message ..." className="w-[75%] py-2 border border-gray-300 px-1.5 rounded-lg"/>
-                     <BsFillSendFill size={22} />
+                     <InputField onInput={handleInput} />
+                     <BsFillSendFill size={22} onClick={handleSendMessage} />
                      <FaPlus size={22} />
                   </div>
                </div>

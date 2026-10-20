@@ -1,28 +1,28 @@
-import { useState } from "react";
-import heroImg from "./assets/hero.png";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
 import "./App.css";
 
 import Auth from "./components/auth.component";
 import Dashboard from "./components/dashboard.component";
 import { Routes, Route, Navigate } from "react-router-dom";
 
+import { io } from "socket.io-client";
+
+import { useEffect, useState } from "react";
+
+let isLoggedIn = false;
+
 function ProtectedRoute({ children }) {
-  // const isLoggedIn = localStorage.getItem('user:token') !== null;
-  const isLoggedIn = true;
+  // const isLoggedIn = localStorage.getItem("user:token") !== null;
   console.log("IS LOGGED IN ??? :::", isLoggedIn);
-
-  if (!isLoggedIn) {
-    return <Navigate to="/sign-in" replace />;
-  } else {
-    if (["/sign-up", "/sign-in"].includes(window.location.pathname)) {
-      return <Navigate to="/" />;
-    }
-  }
-
-  return children;
+  
+  return isLoggedIn ? children : <Navigate to="/sign-in" replace />;
 }
+
+
+function PublicRoute({children}) {
+  return isLoggedIn ? <Navigate to="/" replace /> : children;
+}
+
+export const socket = io("http://localhost:5000");
 
 function App() {
   return (
@@ -36,22 +36,8 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path="/sign-up"
-          element={
-            <ProtectedRoute>
-              <Auth isSignedIn={false} />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/sign-in"
-          element={
-            <ProtectedRoute>
-              <Auth isSignedIn={true} />
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/sign-up" element={<PublicRoute><Auth isSignedIn={false} /></PublicRoute>} />
+        <Route path="/sign-in" element={<PublicRoute><Auth isSignedIn={true} /></PublicRoute>} />
       </Routes>
     </>
   );
