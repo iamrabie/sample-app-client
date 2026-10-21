@@ -14,8 +14,8 @@ const Auth = ({ isSignedIn }) => {
   });
 
 
-  const { login , logout } = useContext(AuthContext);
-  const { setUserOnLogin  , setUserOnLogout } = useContext(UserContext);
+  const { login } = useContext(AuthContext);
+  const { setUserOnLogin } = useContext(UserContext);
   // console.log(data);
 
   const navigate = useNavigate();
@@ -135,8 +135,6 @@ const Auth = ({ isSignedIn }) => {
                 </span>
               </p>
             )}
-
-            <button onClick={ () => { setUserOnLogout(); logout(); }}>logout</button>
           </div>
         </div>
       </form>
