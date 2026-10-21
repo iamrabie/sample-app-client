@@ -3,7 +3,12 @@ import { BsFillSendFill } from "react-icons/bs";
 import { FaPlus } from "react-icons/fa6";
 
 import { socket } from "../App";
-import { useState } from "react";
+import { useState , useContext , useEffect } from "react";
+
+import { AuthContext } from "../context/auth.context";
+import { UserContext } from "../context/user.context";
+
+import { useNavigate } from "react-router-dom";
 
 import InputField from "./input.component";
 
@@ -12,39 +17,28 @@ const Dashboard = () => {
     const [input , setInput] = useState('');
     // console.log("input is ::" , input);
 
+    const [users , setUsers ] = useState([]);
+    const [conversations, setConversations] = useState([]);
+    console.log("conversations:::" , conversations , "length" , conversations.length);
 
-    const USER_DATA = [
-        {
-          name:'John',
-          status:'available',
-          image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s'
-        },
-        {
-          name:'Mary',
-          status:'available',
-          image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s'
-        },
-        {
-          name:'Paul',
-          status:'available',
-          image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s'
-        },
-         {
-          name:'Paul',
-          status:'available',
-          image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s'
-        },
-         {
-          name:'Paul',
-          status:'available',
-          image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s'
-        },
-         {
-          name:'Paul',
-          status:'available',
-          image:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s'
+    useEffect(() => {
+      fetch("http://localhost:5000/api/yap/users" , {
+        method:"GET",
+        headers : {
+          "Content-Type":"application/json"
         }
-    ];
+      }).
+      then(res => res.json()).
+      then(data => setUsers(data?.data)).
+      catch(err => { console.log(err.message); })
+
+    } , [])
+
+    const { logout } = useContext(AuthContext);
+    const { currentUser , setUserOnLogout } = useContext(UserContext);
+    // console.log("current user id::" , currentUser?.id);
+
+    const navigate = useNavigate();
 
     // console.log("socket in the dashboard comp" , socket);
 
@@ -56,7 +50,7 @@ const Dashboard = () => {
     const handleSendMessage = () => {
       console.log("you clocked handle ssend message button");
 
-      socket.emit("on-send-message" , input);
+      socket.emit("on-send-message" , input , currentUser?.id);
     }
 
     return(
@@ -71,12 +65,12 @@ const Dashboard = () => {
               </div>
               {/* <hr className="bg-gray-200 h-1" /> */}
               <div className="w-[250px] mx-auto ">
-                {USER_DATA.map((item) => (
+                {users.map((user) => (
                     <div className="flex gap-x-3 py-4 !border-b border-gray-300 items-center">
-                        <img src={item.image} width="35" height="35" className="rounded-full" />
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s" width="35" height="35" className="rounded-full" />
                         <div className="flex flex-col">
-                            <p className="font-semibold">{item.name}</p>
-                            <p className="text-sm">{item.status}</p>
+                            <p className="font-semibold">{user.name}</p>
+                            <p className="text-[12px]">{user.email}</p>
                         </div>
                     </div>
                 ))}
@@ -84,7 +78,18 @@ const Dashboard = () => {
             </div>
 
             {/* MAIN CHAT WINDOW */}
-            <div className="w-1/2 h-screen flex flex-col">
+            <div className="w-1/2 h-screen">
+            {conversations.length == 0 ? 
+            (
+              <div className="flex flex-col gap-y-1 border justify-center items-center h-full">
+                <p className="text-xl font-semibold">Start a conversation</p>
+                <div className="text-2xl">
+                  ➕
+                </div>
+              </div>
+            ) 
+            :
+             (<div className="flex flex-col">
                 {/* header */}
                <div className="h-[12vh] flex items-center">
                   <div className="w-[80%] bg-gray-100 rounded-full h-[8vh] mx-auto px-10 py-1 flex justify-between items-center">
@@ -141,10 +146,15 @@ const Dashboard = () => {
                      <FaPlus size={22} />
                   </div>
                </div>
+            </div>)}
             </div>
 
             <div className="w-[25%] bg-blue-200/30 h-screen">
-              C
+               <button onClick={ () => { setUserOnLogout(); logout(); navigate("/sign-in"); }}>logout</button>
+               <hr />
+               <div>
+                 <p className="text-xl px-2 font-semibold">Conversations</p>
+               </div>
             </div>
         </div>
     );

@@ -1,55 +1,48 @@
-import { createContext , useState } from "react";
+import { createContext, useState } from "react";
 
 export const UserContext = createContext({
-    currentUser:null,
-    setCurrentUser:() => null,
-    setUserOnLogin:() => null,
-    setUserOnLogout:() => null
+  currentUser: null,
+  setCurrentUser: () => null,
+  setUserOnLogin: () => null,
+  setUserOnLogout: () => null,
 });
 
-
-export const UserProvider = ({children}) => {
-
-    const [currentUser, setCurrentUser] = useState(() => {
+export const UserProvider = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState(() => {
     const id = localStorage.getItem("userId");
 
     if (!id) return null;
 
     return {
-        id: id,
-        email: localStorage.getItem("userEmail"),
-        name: localStorage.getItem("userName")
+      id: id,
+      email: localStorage.getItem("userEmail"),
+      name: localStorage.getItem("userName"),
     };
-});
+  });
 
-    console.log("CURRENT USER :::" , currentUser);
+  // console.log("CURRENT USER :::", currentUser);
 
-    const setUserOnLogin = (data) => {
+  const setUserOnLogin = (data) => {
+    localStorage.setItem("userId", data?.id);
+    localStorage.setItem("userEmail", data?.email);
+    localStorage.setItem("userName", data?.name);
 
-        localStorage.setItem("userId" , data?.id );
-        localStorage.setItem("userEmail" , data?.email);
-        localStorage.setItem("userName" , data?.name);
+    setCurrentUser({
+      id: data?.id,
+      email: data?.email,
+      name: data?.name,
+    });
+  };
 
-        setCurrentUser({
-            id:data?.id,
-            email:data?.email,
-            name:data?.name
-        });
-    }
+  const setUserOnLogout = () => {
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userName");
 
-    const setUserOnLogout = () => {
-        localStorage.removeItem("userId");
-        localStorage.removeItem("userEmail");
-        console.log("is undefiend ?" , localStorage.removeItem("userName"));
+    setCurrentUser(null);
+  };
 
-        setCurrentUser(null);
-    }
+  const value = { currentUser, setUserOnLogin, setUserOnLogout };
 
-    const value = { currentUser ,  setUserOnLogin , setUserOnLogout };
-    
-    return(
-        <UserContext.Provider value={value}>
-            {children}
-        </UserContext.Provider>
-    );
-}
+  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+};

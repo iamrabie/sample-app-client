@@ -6,25 +6,26 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import { io } from "socket.io-client";
 
-import { useEffect, useState } from "react";
-
-let isLoggedIn = false;
-
-function ProtectedRoute({ children }) {
-  // const isLoggedIn = localStorage.getItem("user:token") !== null;
-  console.log("IS LOGGED IN ??? :::", isLoggedIn);
-  
-  return isLoggedIn ? children : <Navigate to="/sign-in" replace />;
-}
-
-
-function PublicRoute({children}) {
-  return isLoggedIn ? <Navigate to="/" replace /> : children;
-}
+import { useEffect, useState , useContext} from "react";
+import { AuthContext } from "./context/auth.context";
 
 export const socket = io("http://localhost:5000");
 
+  function ProtectedRoute({ children }) {
+    const { token } = useContext(AuthContext);
+
+    return token ? children : <Navigate to="/sign-in" replace />;
+  }
+
+  function PublicRoute({ children }) {
+    const { token } = useContext(AuthContext);
+
+    return token ? <Navigate to="/" replace /> : children;
+  }
+
 function App() {
+
+
   return (
     <>
       <Routes>
@@ -36,8 +37,22 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/sign-up" element={<PublicRoute><Auth isSignedIn={false} /></PublicRoute>} />
-        <Route path="/sign-in" element={<PublicRoute><Auth isSignedIn={true} /></PublicRoute>} />
+        <Route
+          path="/sign-up"
+          element={
+            <PublicRoute>
+              <Auth isSignedIn={false} />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/sign-in"
+          element={
+            <PublicRoute>
+              <Auth isSignedIn={true} />
+            </PublicRoute>
+          }
+        />
       </Routes>
     </>
   );
