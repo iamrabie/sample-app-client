@@ -15,6 +15,8 @@ export const SelectedUserProvider = ({ children }) => {
   });
 
 
+  console.log("SELECTED USER CONTEXT :::::" , selectedUser);
+  
   useEffect(() => {
     if (selectedUser?.id) {
        localStorage.setItem("selectedUserId" , selectedUser?.id);
