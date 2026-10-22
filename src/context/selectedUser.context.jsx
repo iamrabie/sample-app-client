@@ -15,12 +15,12 @@ export const SelectedUserProvider = ({ children }) => {
   });
 
 
-  console.log("SELECTED USER CONTEXT :::::" , selectedUser);
-  
+//   console.log("SELECTED USER CONTEXT :::::" , selectedUser);
+
   useEffect(() => {
     if (selectedUser?.id) {
        localStorage.setItem("selectedUserId" , selectedUser?.id);
-       localStorage.setITem("selectedUserName" , selectedUser?.name);
+       localStorage.setItem("selectedUserName" , selectedUser?.name);
     }
 
     else {

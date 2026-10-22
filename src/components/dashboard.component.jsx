@@ -20,7 +20,7 @@ const Dashboard = () => {
 
     const [users , setUsers ] = useState([]);
     const [conversations, setConversations] = useState([]);
-    console.log("conversations:::" , conversations , "length" , conversations.length);
+    // console.log("conversations:::" , conversations , "length" , conversations.length);
 
     useEffect(() => {
       fetch("http://localhost:5000/api/yap/users" , {
@@ -55,8 +55,13 @@ const Dashboard = () => {
       socket.emit("on-send-message" , input , currentUser?.id);
     }
 
-    const handleSetSelectedUser = () => {
-      console.log("ypu clicked the suer");
+    const handleSetSelectedUser = (user) => {
+      // console.log("ypu clicked the suer" , user);
+      setSelectedUser({
+        id:user._id,
+        name:user.name
+      });
+
     }
 
     return(
@@ -72,7 +77,7 @@ const Dashboard = () => {
               {/* <hr className="bg-gray-200 h-1" /> */}
               <div className="w-[250px] mx-auto ">
                 {users.map((user) => (
-                    <div className="flex gap-x-3 py-4 !border-b border-gray-300 items-center" onClick={handleSetSelectedUser}>
+                    <div className="flex gap-x-3 py-4 !border-b border-gray-300 items-center cursor-pointer" onClick={() => handleSetSelectedUser(user)}>
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s" width="35" height="35" className="rounded-full" />
                         <div className="flex flex-col">
                             <p className="font-semibold">{user.name}</p>
