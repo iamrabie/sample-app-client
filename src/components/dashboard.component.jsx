@@ -7,6 +7,7 @@ import { useState , useContext , useEffect } from "react";
 
 import { AuthContext } from "../context/auth.context";
 import { UserContext } from "../context/user.context";
+import { SelectedUserContext } from "../context/selectedUser.context";
 
 import { useNavigate } from "react-router-dom";
 
@@ -37,6 +38,7 @@ const Dashboard = () => {
     const { logout } = useContext(AuthContext);
     const { currentUser , setUserOnLogout } = useContext(UserContext);
     // console.log("current user id::" , currentUser?.id);
+    const { setSelectedUser } = useContext(SelectedUserContext);
 
     const navigate = useNavigate();
 
@@ -53,6 +55,10 @@ const Dashboard = () => {
       socket.emit("on-send-message" , input , currentUser?.id);
     }
 
+    const handleSetSelectedUser = () => {
+      console.log("ypu clicked the suer");
+    }
+
     return(
         <div className="flex w-screen">
             <div className="w-[25%] bg-blue-200/30 h-screen">
@@ -66,7 +72,7 @@ const Dashboard = () => {
               {/* <hr className="bg-gray-200 h-1" /> */}
               <div className="w-[250px] mx-auto ">
                 {users.map((user) => (
-                    <div className="flex gap-x-3 py-4 !border-b border-gray-300 items-center">
+                    <div className="flex gap-x-3 py-4 !border-b border-gray-300 items-center" onClick={handleSetSelectedUser}>
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0nDCKf3WQaR7alHtPpTG9NQcI4Wfkndq0dFBt_GvxUw&s" width="35" height="35" className="rounded-full" />
                         <div className="flex flex-col">
                             <p className="font-semibold">{user.name}</p>
@@ -79,17 +85,17 @@ const Dashboard = () => {
 
             {/* MAIN CHAT WINDOW */}
             <div className="w-1/2 h-screen">
-            {conversations.length == 0 ? 
-            (
-              <div className="flex flex-col gap-y-1 border justify-center items-center h-full">
+            {/* {conversations.length == 0 ? 
+            ( */}
+              {/* <div className="flex flex-col gap-y-1 border justify-center items-center h-full">
                 <p className="text-xl font-semibold">Start a conversation</p>
                 <div className="text-2xl">
                   ➕
                 </div>
-              </div>
-            ) 
-            :
-             (<div className="flex flex-col">
+              </div> */}
+            {/* ) 
+            : */}
+             <div className="flex flex-col">
                 {/* header */}
                <div className="h-[12vh] flex items-center">
                   <div className="w-[80%] bg-gray-100 rounded-full h-[8vh] mx-auto px-10 py-1 flex justify-between items-center">
@@ -146,7 +152,8 @@ const Dashboard = () => {
                      <FaPlus size={22} />
                   </div>
                </div>
-            </div>)}
+            </div>
+            {/* )} */}
             </div>
 
             <div className="w-[25%] bg-blue-200/30 h-screen">
