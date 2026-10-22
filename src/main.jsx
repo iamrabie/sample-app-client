@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import { UserProvider } from './context/user.context.jsx';
 import { AuthProvider } from './context/auth.context.jsx';
+import { SelectedUserProvider } from './context/selectedUser.context.jsx';
 
 import './index.css'
 import App from './App.jsx'
@@ -13,7 +14,9 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <UserProvider>
         <AuthProvider>
+          <SelectedUserProvider>
             <App />
+          </SelectedUserProvider>
         </AuthProvider>
       </UserProvider>
     </BrowserRouter>
